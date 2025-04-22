@@ -67,20 +67,20 @@ const backgroundImages = [
 
 // --- Default Settings --- 
 const defaultTasks = [
-    { id: 0, name: 'Clean up rooms', duration: 10, icon: '🧹', colorId: 'blue', isActive: true },
-    { id: 1, name: 'Prepare clothes', duration: 5, icon: '👕', colorId: 'green', isActive: true },
-    { id: 2, name: 'Pack school bag', duration: 5, icon: '🎒', colorId: 'yellow', isActive: true },
-    { id: 3, name: 'Shower', duration: 10, icon: '🚿', colorId: 'pink', isActive: true },
-    { id: 4, name: 'Brush teeth', duration: 3, icon: '🦷', colorId: 'purple', isActive: true },
-    { id: 5, name: 'Toilet', duration: 2, icon: '🚽', colorId: 'orange', isActive: true },
-    { id: 6, name: 'Pyjamas', duration: 2, icon: '<0xF0><0x9F><0xA5><0xBD>', colorId: 'teal', isActive: true },
-    { id: 7, name: 'Dad time', duration: 13, icon: '👨‍👧', colorId: 'red', isActive: true }
+    // Updated default task list
+    { id: 0, name: 'Städning av rum', duration: 10, icon: '🧹', colorId: 'blue', isActive: true },
+    { id: 1, name: 'Lägg fram kläder tills imorgon', duration: 3, icon: '👔', colorId: 'green', isActive: true },
+    { id: 2, name: 'Packa skolväskan', duration: 3, icon: '🎒', colorId: 'yellow', isActive: true },
+    { id: 3, name: 'Borsta tänderna', duration: 3, icon: '🦷', colorId: 'purple', isActive: true },
+    { id: 4, name: 'Gå på toalettet', duration: 3, icon: '🚽', colorId: 'orange', isActive: true },
+    { id: 5, name: 'Pyjamas', duration: 3, icon: '👕', colorId: 'teal', isActive: true }, // Changed icon to Shirt
+    { id: 6, name: 'Mys stund', duration: 20, icon: '👨‍👧', colorId: 'pink', isActive: true }
 ];
 
 const defaultGeneralSettings = {
-    backgroundImage: 'assets/backgrounds/white_box.jpg', // Keep white_box as default
-    overlayColorHex: '#ff69b4',
-    overlayOpacityPercent: 30
+    backgroundImage: 'assets/backgrounds/colour_water.jpg', // New default background
+    overlayColorHex: '#FFFFFF',                      // New default: White
+    overlayOpacityPercent: 50                        // New default: 50%
 };
 
 // Helper function to convert HEX to RGBA

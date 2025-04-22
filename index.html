@@ -33,12 +33,11 @@
     <div class="columns-container main-area">
         <!-- Area 2: Task List Area -->
         <div class="column tasks-area">
-            <h2>Tasks</h2>
-            <div class="task-list-header">
-                <span class="header-task-icon-spacer"></span>
-                <span class="header-task-name">Task</span>
-                <span class="header-task-duration">Time</span>
-                <span class="header-task-done">Done?</span>
+            <div class="tasks-area-title-row">
+                <h2>Tasks</h2>
+                <span class="title-spacer"></span> <!-- Spacer -->
+                <span class="title-duration">Time</span> 
+                <span class="title-done">Done?</span> 
             </div>
             <ul class="task-list" id="taskList">
                 <!-- Task items -->
@@ -52,8 +51,13 @@
 
         <!-- Area 4: Extra Content Area -->
         <div class="column extra-area">
-            <h2>Relax Zone</h2>
-            <img src="assets/images/sungoingdown.jpg" alt="Setting Sun" class="extra-image">
+            <!-- Replicate title row structure -->
+            <div class="tasks-area-title-row"> <!-- Reuse class for layout -->
+                <h2>Extra space</h2> 
+                <span class="title-spacer"></span> <!-- Spacer -->
+                <!-- No Duration/Done titles needed here -->
+            </div>
+            <!-- Content area below title is empty -->
         </div>
     </div>
 

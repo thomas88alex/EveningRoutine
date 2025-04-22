@@ -1,3 +1,14 @@
+* {
+    box-sizing: border-box; /* Apply border-box globally */
+    margin: 0;
+    padding: 0;
+}
+
+html {
+     /* Optional: Ensure html also uses border-box if needed */
+     box-sizing: border-box;
+}
+
 body {
     font-family: sans-serif;
     /* background-color: #f0f8ff; Remove default color, will be set by image/overlay */
@@ -44,10 +55,11 @@ h1 {
 
 /* --- Progress Bar --- */
 .progress-container {
-    width: 100%; /* Use full width of top-area */
-    max-width: none; /* Remove previous max-width */
+    position: relative;
+    width: 100%;
+    max-width: none;
     margin: 25px 0;
-    height: 50px;
+    height: 50px !important; /* TEMPORARY: Add !important */
     background-color: #eee;
     border-radius: 8px;
 }
@@ -96,11 +108,13 @@ h1 {
 
 .time-marker {
     position: absolute;
-    top: -3px;
-    bottom: -3px;
+    /* Change back to top/bottom constraint */
+    top: 0;
+    bottom: 0; 
+    /* height: 100%; Remove explicit height */
     left: 0%;
-    width: 6px; /* Increased width further */
-    background-color: #000000; /* Solid black */
+    width: 6px;
+    background-color: #000000;
     z-index: 10;
     transition: left 1s linear;
     border-radius: 3px;
@@ -117,38 +131,66 @@ h1 {
 }
 
 /* --- Task List --- */
+/* Remove Old Header Styles */
+/*
 .task-list-header {
+    // ... removed ...
+}
+.header-task-icon-spacer { 
+    // ... removed ...
+}
+.header-task-name {
+    // ... removed ...
+}
+.header-task-duration {
+    // ... removed ...
+}
+.header-task-done {
+    // ... removed ...
+}
+*/
+
+/* New Title Row Styles */
+.tasks-area-title-row {
+    display: flex;
+    align-items: baseline; /* Align text baselines */
     width: 100%; /* Use full column width */
-    margin: 0 0 5px 0; /* Remove auto margin, adjust bottom */
-    padding: 0 10px; 
+    margin-bottom: 8px; /* Space below title row */
+    padding-right: 10px; /* Align roughly with task item padding */
+    border-bottom: 1px solid #ccc; /* Add separator */
+    padding-bottom: 5px;
+}
+
+.tasks-area-title-row h2 {
+    margin: 0; /* Remove default h2 margin */
+    padding: 0;
+    flex-shrink: 0; /* Don't let title shrink */
+}
+
+.title-spacer {
+    flex-grow: 1; /* Pushes Time/Done to the right */
+}
+
+.title-duration,
+.title-done {
+    font-size: 0.85em; /* Smaller text */
     font-weight: bold;
     color: #555;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 5px;
-    display: flex; /* Ensure header items align */
-    gap: 10px;
-}
-
-.header-task-icon-spacer { /* Spacer for icon column */
-    min-width: 35px; 
-}
-
-.header-task-name {
-    flex-grow: 1; /* Name takes most space */
-}
-
-.header-task-duration { /* Header for duration */
-    min-width: 60px; /* Width for duration column */
     text-align: center;
+    flex-shrink: 0; /* Prevent shrinking */
 }
 
-.header-task-done { /* Header for checkbox */
-    min-width: 50px;
-    text-align: center;
+.title-duration {
+    min-width: 60px; /* Match task duration column */
+    margin-right: 10px; /* Space before Done title (adjust gap) */
+}
+
+.title-done {
+    min-width: 50px; /* Match task controls column */
 }
 
 .task-list {
-    width: 100%; /* Use full column width */
+    width: 100%;
     list-style: none;
     padding: 0;
 }
@@ -622,6 +664,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center items within top area */
+    padding-bottom: 20px; /* Space below top area */
 }
 
 /* Container for columns 2, 3, 4 */
@@ -631,6 +674,8 @@ h1 {
     max-width: none; /* Remove max-width constraint */
     margin-top: 20px;
     gap: 0; /* No gap, spacer div handles it */
+    padding-top: 20px; /* Space above columns */
+    padding-bottom: 20px; /* Space below columns */
 }
 
 /* Styles for individual columns */
@@ -772,4 +817,28 @@ h1 {
 #settingsGeneral #opacityValue {
     font-weight: bold;
     margin-left: 10px;
+}
+
+/* Ensure top-level containers don't add extra margin */
+.main-area, .columns-container, .footer {
+     margin-top: 0; /* Reset potential top margins */
+     margin-bottom: 0; /* Reset potential bottom margins */
+     width: 90%; /* Keep width setting */
+}
+
+/* Add some spacing back using padding or margins on specific elements */
+.main-area.top-area {
+    padding-bottom: 20px; /* Space below top area */
+}
+
+.columns-container {
+     padding-top: 20px; /* Space above columns */
+     padding-bottom: 20px; /* Space below columns */
+}
+
+.footer {
+     padding-top: 30px;
+     padding-bottom: 20px; /* Add padding to footer instead of body */
+     width: 90%; /* Ensure footer aligns */
+     text-align: center;
 } 
