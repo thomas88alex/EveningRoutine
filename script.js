@@ -749,6 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const itemDiv = document.createElement('div');
             itemDiv.classList.add('setting-task-item');
             itemDiv.dataset.taskId = task.id;
+            itemDiv.draggable = true; // Make item draggable
 
             // Drag Handle
             const handle = document.createElement('span');
@@ -827,26 +828,12 @@ document.addEventListener('DOMContentLoaded', () => {
             activeCheckbox.classList.add('setting-active-cb');
             itemDiv.appendChild(activeCheckbox);
 
-            // --- Buttons (Move, Delete) ---
+            // --- Buttons (Delete ONLY) ---
             const buttonsDiv = document.createElement('div');
             buttonsDiv.classList.add('setting-buttons');
 
-            const moveUpButton = document.createElement('button');
-            moveUpButton.textContent = '↑';
-            moveUpButton.title = 'Move Up';
-            moveUpButton.classList.add('move-button', 'move-up');
-            moveUpButton.disabled = index === 0; // Disable if first
-            buttonsDiv.appendChild(moveUpButton);
-
-            const moveDownButton = document.createElement('button');
-            moveDownButton.textContent = '↓';
-            moveDownButton.title = 'Move Down';
-            moveDownButton.classList.add('move-button', 'move-down');
-            moveDownButton.disabled = index === tasks.length - 1; // Disable if last
-            buttonsDiv.appendChild(moveDownButton);
-
             const deleteButton = document.createElement('button');
-            deleteButton.textContent = '🗑️'; // Trash can emoji
+            deleteButton.textContent = '🗑️';
             deleteButton.title = 'Delete Task';
             deleteButton.classList.add('delete-button');
             buttonsDiv.appendChild(deleteButton);
@@ -880,7 +867,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Added new task:", newTask);
     });
 
-    // Event Delegation for Settings List Controls
+    // Event Delegation for Settings List Controls (Delete ONLY now)
     settingsTaskList.addEventListener('click', (event) => {
         const target = event.target;
         const taskItem = target.closest('.setting-task-item');
@@ -898,23 +885,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(`Deleted task with ID: ${taskId}`);
             }
         }
-        // Move Up Button
-        else if (target.classList.contains('move-up')) {
-            if (taskIndex > 0) {
-                [tasks[taskIndex - 1], tasks[taskIndex]] = [tasks[taskIndex], tasks[taskIndex - 1]]; // Swap
-                populateSettings(); // Refresh view
-            }
-        }
-        // Move Down Button
-        else if (target.classList.contains('move-down')) {
-            if (taskIndex < tasks.length - 1) {
-                [tasks[taskIndex + 1], tasks[taskIndex]] = [tasks[taskIndex], tasks[taskIndex + 1]]; // Swap
-                populateSettings(); // Refresh view
-            }
-        }
     });
 
-    // Event Delegation for Input Changes in Settings
+    // Event Delegation for Input Changes in Settings (No change needed here)
     settingsTaskList.addEventListener('input', (event) => {
         const target = event.target;
         const taskItem = target.closest('.setting-task-item');
@@ -985,6 +958,108 @@ document.addEventListener('DOMContentLoaded', () => {
         const brightness = ((r * 299) + (g * 587) + (b * 114)) / 1000;
         return brightness > 150; // Threshold can be adjusted
     }
+
+    // --- Drag and Drop Logic ---
+    let draggedTaskId = null;
+
+    settingsTaskList.addEventListener('dragstart', (event) => {
+        const taskItem = event.target.closest('.setting-task-item');
+        if (!taskItem) return;
+
+        draggedTaskId = parseInt(taskItem.dataset.taskId, 10);
+        event.dataTransfer.setData('text/plain', draggedTaskId.toString());
+        event.dataTransfer.effectAllowed = 'move';
+        
+        // Add slight delay so browser can render drag image before style changes
+        setTimeout(() => {
+            taskItem.classList.add('dragging');
+        }, 0);
+        console.log(`Drag Start: ${draggedTaskId}`);
+    });
+
+    settingsTaskList.addEventListener('dragend', (event) => {
+        const taskItem = event.target.closest('.setting-task-item');
+         if (taskItem) { // Ensure it's the original item
+             taskItem.classList.remove('dragging');
+         }
+         // Clean up any lingering drag-over styles
+         settingsTaskList.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+        draggedTaskId = null;
+        console.log("Drag End");
+    });
+
+    settingsTaskList.addEventListener('dragover', (event) => {
+        event.preventDefault(); // Necessary to allow drop
+        event.dataTransfer.dropEffect = 'move';
+
+        const targetItem = event.target.closest('.setting-task-item');
+        if (!targetItem || parseInt(targetItem.dataset.taskId, 10) === draggedTaskId) {
+             // Don't allow dropping on itself or outside items
+             settingsTaskList.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+             return;
+         }
+
+         // Basic visual indicator - add class to target
+         // Remove from others first for cleaner visual
+         settingsTaskList.querySelectorAll('.drag-over').forEach(el => {
+             if (el !== targetItem) el.classList.remove('drag-over');
+         });
+        targetItem.classList.add('drag-over');
+    });
+
+    settingsTaskList.addEventListener('dragleave', (event) => {
+         const targetItem = event.target.closest('.setting-task-item');
+         if (targetItem) {
+             targetItem.classList.remove('drag-over');
+         }
+    });
+
+    settingsTaskList.addEventListener('drop', (event) => {
+        event.preventDefault();
+        const targetItem = event.target.closest('.setting-task-item');
+        if (!targetItem) {
+             console.log("Drop occurred outside a valid target item.");
+             if (draggedTaskId !== null) { // Clean up dragging state if dropped outside
+                const draggedElement = settingsTaskList.querySelector(`.setting-task-item[data-task-id='${draggedTaskId}'] .dragging`);
+                if(draggedElement) draggedElement.classList.remove('dragging');
+             }
+             settingsTaskList.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+             draggedTaskId = null;
+            return;
+         }
+
+        const targetTaskId = parseInt(targetItem.dataset.taskId, 10);
+        targetItem.classList.remove('drag-over'); // Remove drop indicator
+
+        if (draggedTaskId === null || draggedTaskId === targetTaskId) {
+            console.log("Drop cancelled (same item or no dragged item).");
+            draggedTaskId = null;
+            return;
+        }
+
+        console.log(`Drop: Dragged ${draggedTaskId} onto ${targetTaskId}`);
+
+        // Find original indices
+        const draggedIndex = tasks.findIndex(t => t.id === draggedTaskId);
+        const targetIndex = tasks.findIndex(t => t.id === targetTaskId);
+
+        if (draggedIndex === -1 || targetIndex === -1) {
+            console.error("Could not find dragged or target task in array!");
+            draggedTaskId = null;
+            return;
+        }
+
+        // Reorder the array
+        const [draggedTask] = tasks.splice(draggedIndex, 1); // Remove dragged item
+        // Calculate new target index *after* removal
+        const newTargetIndex = tasks.findIndex(t => t.id === targetTaskId);
+        tasks.splice(newTargetIndex, 0, draggedTask); // Insert before target
+
+        console.log("Tasks array reordered.");
+        populateSettings(); // Re-render the settings list
+
+        draggedTaskId = null; // Reset dragged item
+    });
 
     // Initial setup
     initializeUI(); // Load tasks from storage (implicitly done by `tasks` definition) and draw main UI

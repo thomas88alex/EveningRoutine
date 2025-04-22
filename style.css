@@ -380,52 +380,26 @@ h1 {
     padding: 8px 10px;
     margin-bottom: 8px;
     gap: 10px;
+    position: relative; /* Needed for drag-over indicator */
 }
 
-/* Header Row Specific Styles */
-.settings-header {
-    background-color: #e9ecef;
-    border-bottom: 2px solid #dee2e6;
-    font-weight: bold;
-    padding: 10px 10px; /* Match padding roughly */
-    margin-bottom: 10px;
-    /* Ensure header uses flex like items */
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* Style for item being dragged */
+.setting-task-item.dragging {
+    opacity: 0.5;
+    background-color: #e0e0e0;
 }
 
-.settings-header .drag-handle {
-    visibility: hidden;
-    min-width: 25px; /* Keep for spacing */
+/* Style for indicating drop target */
+.setting-task-item.drag-over::before {
+    content: '';
+    position: absolute;
+    top: -4px; /* Position above the item */
+    left: 0;
+    right: 0;
+    height: 6px;
+    background-color: #0d6efd; /* Blue indicator */
+    border-radius: 3px;
 }
-
-.settings-header .header-inputs {
-    flex-grow: 1; /* Inputs group takes space */
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Match input gap */
-}
-
-.settings-header .setting-active.header-label {
-    min-width: 50px; /* Width for Active header column */
-    text-align: center;
-    display: inline-block;
-    margin: 0 10px 0 5px; /* Match checkbox margin */
-    padding: 0; /* Remove extra padding */
-}
-
-.settings-header .header-buttons {
-     display: flex;
-     min-width: 100px; /* Match buttons div width */
-     justify-content: center;
-}
-
-/* Align header labels within .header-inputs */
-.settings-header .header-inputs .setting-icon.header-label { width: 65px; text-align: center; }
-.settings-header .header-inputs .setting-name.header-label { flex: 1 1 150px; text-align: left; padding-left: 8px; }
-.settings-header .header-inputs .setting-duration.header-label { width: 60px; text-align: center; }
-.settings-header .header-inputs .setting-color.header-label { width: 110px; text-align: center; }
 
 .drag-handle {
     cursor: grab;
@@ -434,6 +408,9 @@ h1 {
     padding: 0 5px;
     align-self: center;
     min-width: 25px;
+}
+.setting-task-item.dragging .drag-handle {
+     cursor: grabbing;
 }
 
 .setting-inputs {
@@ -503,8 +480,25 @@ h1 {
     display: flex;
     align-items: center;
     gap: 5px;
-    min-width: 100px;
-    justify-content: flex-end;
+    min-width: 50px; /* Adjusted width for just delete */
+    justify-content: center; /* Center delete button */
+}
+
+.setting-buttons .delete-button {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    font-size: 1em;
+    padding: 5px;
+    border-radius: 4px; /* Add radius */
+    border: 1px solid #f5c6cb; /* Add border */
+    cursor: pointer; /* Add cursor */
+    transition: background-color 0.2s, border-color 0.2s; /* Add transition */
+}
+
+.setting-buttons .delete-button:hover:not(:disabled) {
+    background-color: #f5c6cb;
+    border-color: #f1b0b7;
 }
 
 .settings-footer {
