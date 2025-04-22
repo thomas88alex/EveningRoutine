@@ -1,0 +1,610 @@
+body {
+    font-family: sans-serif;
+    background-color: #f0f8ff; /* Alice Blue - soft background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+    position: relative; /* Needed for modal positioning? */
+}
+
+h1 {
+    color: #4a4a4a;
+    margin-bottom: 5px; /* Reduce margin below h1 */
+}
+
+/* Position Start and Settings buttons */
+#startButton {
+    margin-top: 10px;
+    margin-bottom: 5px; /* Reduce margin below start button */
+    padding: 12px 25px;
+    font-size: 1.2em;
+}
+
+.settings-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    padding: 8px 12px;
+    font-size: 1.1em;
+    background-color: #777;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.settings-btn:hover {
+    background-color: #555;
+}
+
+/* --- Progress Bar --- */
+.progress-container {
+    position: relative;
+    width: 95%;
+    max-width: 1200px; /* Increased max-width again */
+    margin: 25px 0;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 8px;
+}
+
+.progress-bar {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px; /* Match container */
+    overflow: hidden;
+}
+
+.progress-square {
+    flex: 1;
+    height: 100%;
+    border-right: 1px solid #bbb;
+    box-sizing: border-box;
+    transition: background-color 0.5s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Prevent text selection cursor */
+    user-select: none; /* Standard */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+    cursor: default;
+}
+
+/* Style for the icon inside the progress square */
+.pb-icon {
+    font-size: 1.1em; /* Reduced size again */
+    line-height: 1;
+    opacity: 1;
+    /* Remove color/filter/blend overrides */
+    pointer-events: none;
+    position: relative;
+    top: -1px; /* Adjust vertical position slightly */
+}
+
+.progress-square:last-child {
+    border-right: none;
+}
+
+.time-marker {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    left: 0%;
+    width: 6px; /* Increased width further */
+    background-color: #000000; /* Solid black */
+    z-index: 10;
+    transition: left 1s linear;
+    border-radius: 3px;
+    display: none;
+    pointer-events: none;
+}
+
+/* --- Bonus Time --- */
+.bonus-time {
+    margin: 15px 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #ff69b4; /* Hot Pink for bonus */
+}
+
+/* --- Task List --- */
+.task-list-header {
+    display: flex;
+    width: 90%;
+    max-width: 550px;
+    margin: 20px auto 5px auto;
+    padding: 0 15px; /* Adjust padding later */
+    font-weight: bold;
+    color: #555;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    gap: 10px; /* Gap between header items */
+}
+
+.header-task-icon-spacer { /* Spacer for icon column */
+    min-width: 35px; 
+}
+
+.header-task-name {
+    flex-grow: 1; /* Name takes most space */
+}
+
+.header-task-duration { /* Header for duration */
+    min-width: 60px; /* Width for duration column */
+    text-align: center;
+}
+
+.header-task-done { /* Header for checkbox */
+    min-width: 50px;
+    text-align: center;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    width: 90%;
+    max-width: 550px;
+    /* margin-top: 20px; */ /* Remove top margin, handled by header */
+}
+
+.task-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-left: 8px solid var(--task-color-border, #ccc);
+    margin-bottom: 10px;
+    padding: 10px 10px; /* Reduced right padding slightly */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s, opacity 0.3s, border-left-color 0.3s;
+    gap: 10px; /* Gap between task item elements */
+}
+
+.task-icon {
+    font-size: 1.8em;
+    line-height: 1;
+    min-width: 35px;
+    text-align: center;
+}
+
+.task-details {
+    flex-grow: 1; /* Name takes up available space */
+}
+
+.task-details label {
+     font-size: 1.1em;
+     display: block;
+}
+
+/* Style for duration column */
+.task-duration {
+    font-size: 0.95em;
+    color: #555;
+    min-width: 60px; /* Match header width */
+    text-align: center; /* Center duration text */
+    white-space: nowrap; /* Prevent wrapping */
+    flex-shrink: 0; /* Prevent duration column from shrinking */
+}
+
+.task-item.completed .task-details label {
+    text-decoration: line-through;
+    color: #777;
+}
+
+.task-controls {
+    display: flex;
+    align-items: center;
+    min-width: 50px; /* Match header width */
+    justify-content: center;
+    flex-shrink: 0; /* Prevent controls column from shrinking */
+}
+
+/* Styles for the Completion Checkbox */
+.complete-checkbox {
+    transform: scale(1.8);
+    margin: 0;
+    cursor: pointer;
+    accent-color: #4CAF50;
+}
+
+.complete-checkbox:disabled {
+    cursor: not-allowed;
+    accent-color: #ccc;
+}
+
+/* Style for completed task item */
+.task-item.completed {
+    opacity: 0.7;
+    background-color: #f0f0f0; /* Lighter grey for completed */
+}
+
+/* Ensure completed label has line-through */
+.task-item.completed .task-details label {
+    text-decoration: line-through;
+    color: #777;
+}
+
+/* Highlight active task with background change */
+.task-item.active {
+     /* Keep the border color, just change background */
+     /* border-left-color: var(--task-color-border, #2196F3); */ /* No longer needed here */
+     background-color: #f5faff; /* Very light blue background for subtle highlight */
+     opacity: 1;
+}
+
+/* --- Task Colors --- */
+/* Remove old numeric colors */
+
+/* New Named Colors */
+.task-color-blue-light { background-color: #a8d8f0; }
+.task-color-blue-dark { background-color: #4a90e2; }
+.task-color-green-light { background-color: #a8e6cf; }
+.task-color-green-dark { background-color: #4caf50; }
+.task-color-yellow-light { background-color: #fff59d; }
+.task-color-yellow-dark { background-color: #fbc02d; }
+.task-color-pink-light { background-color: #f8bbd0; }
+.task-color-pink-dark { background-color: #e91e63; }
+.task-color-purple-light { background-color: #d1c4e9; }
+.task-color-purple-dark { background-color: #9c27b0; }
+.task-color-orange-light { background-color: #ffccbc; }
+.task-color-orange-dark { background-color: #ff7043; }
+.task-color-teal-light { background-color: #b2dfdb; }
+.task-color-teal-dark { background-color: #009688; }
+.task-color-red-light { background-color: #ffcdd2; }
+.task-color-red-dark { background-color: #e53935; }
+.task-color-lime-light { background-color: #e6ee9c; }
+.task-color-lime-dark { background-color: #c0ca33; }
+.task-color-cyan-light { background-color: #b2ebf2; }
+.task-color-cyan-dark { background-color: #00bcd4; }
+.task-color-indigo-light { background-color: #c5cae9; }
+.task-color-indigo-dark { background-color: #3f51b5; }
+.task-color-amber-light { background-color: #ffecb3; }
+.task-color-amber-dark { background-color: #ffc107; }
+.task-color-brown-light { background-color: #d7ccc8; }
+.task-color-brown-dark { background-color: #795548; }
+.task-color-grey-light { background-color: #e0e0e0; }
+.task-color-grey-dark { background-color: #757575; }
+.task-color-deep-purple-light { background-color: #b39ddb; }
+.task-color-deep-purple-dark { background-color: #673ab7; }
+.task-color-light-green-light { background-color: #c8e6c9; }
+.task-color-light-green-dark { background-color: #8bc34a; }
+
+/* Add specific color for completed task squares */
+.progress-square.task-completed {
+    background-color: #77dd77; /* Lighter Pastel Green */
+    border-color: #5cb85c; /* Slightly darker border for contrast */
+}
+
+/* Style for unused planned squares (when task finished early) */
+.progress-square.task-unused {
+    background-color: #cccccc;
+    border-color: #bbbbbb;
+}
+
+/* Style for skipped task squares */
+.progress-square.task-skipped {
+    background-color: #e0e0e0;
+    border-color: #d0d0d0;
+}
+
+/* --- Footer --- */
+.footer {
+    margin-top: 30px;
+    color: #666;
+    font-style: italic;
+}
+
+/* --- Settings Modal --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    padding-top: 60px; /* Location of the box */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 3% auto; /* Reduced top margin slightly */
+    padding: 25px;
+    border: 1px solid #888;
+    width: 90%; /* Use percentage for responsiveness */
+    max-width: 950px; /* Increased max-width significantly */
+    border-radius: 10px;
+    position: relative;
+}
+
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Add styles for settings task list items later */
+#settingsTaskList .setting-task-item { /* Placeholder */
+    border: 1px dashed #ccc;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+#addNewTaskButton {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #2196F3; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#addNewTaskButton:hover {
+    background-color: #0b7dda;
+}
+
+#settingsTaskList {
+    margin-top: 20px;
+    max-height: 60vh; /* Limit height and allow scroll */
+    overflow-y: auto;
+    padding-right: 10px; /* Space for scrollbar */
+}
+
+.setting-task-item {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    gap: 10px;
+    position: relative; /* Needed for drag-over indicator */
+}
+
+/* Style for item being dragged */
+.setting-task-item.dragging {
+    opacity: 0.5;
+    background-color: #e0e0e0;
+}
+
+/* Style for indicating drop target */
+.setting-task-item.drag-over::before {
+    content: '';
+    position: absolute;
+    top: -4px; /* Position above the item */
+    left: 0;
+    right: 0;
+    height: 6px;
+    background-color: #0d6efd; /* Blue indicator */
+    border-radius: 3px;
+}
+
+.drag-handle {
+    cursor: grab;
+    font-size: 1.5em;
+    color: #aaa;
+    padding: 0 5px;
+    align-self: center;
+    min-width: 25px;
+}
+.setting-task-item.dragging .drag-handle {
+     cursor: grabbing;
+}
+
+.setting-inputs {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* flex-wrap: wrap; */ /* Keep removed */
+}
+
+.setting-inputs input[type="text"],
+.setting-inputs input[type="number"],
+.setting-inputs select { /* Style select elements */
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95em;
+    background-color: white;
+}
+
+.setting-icon {
+    width: 65px; /* Slightly wider for dropdown arrow */
+    text-align: center;
+    font-size: 1.1em; /* Ensure emoji fits */
+    -webkit-appearance: none; /* Custom arrow styling */
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right .7em top 50%;
+    background-size: .65em auto;
+}
+
+.setting-name {
+    flex: 1 1 150px;
+}
+
+.setting-duration {
+    width: 60px;
+}
+
+.setting-color {
+     width: 110px; /* Width for color dropdown */
+     -webkit-appearance: none; /* Custom arrow styling */
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right .7em top 50%;
+    background-size: .65em auto;
+}
+.setting-color option {
+    padding: 5px;
+}
+
+.setting-active-cb { /* Active checkbox - separate column */
+    margin: 0 10px 0 5px;
+    transform: scale(1.2);
+    cursor: pointer;
+    align-self: center;
+    min-width: 50px; /* Match header width */
+    display: flex;
+    justify-content: center;
+}
+
+.setting-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 50px; /* Adjusted width for just delete */
+    justify-content: center; /* Center delete button */
+}
+
+.setting-buttons .delete-button {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    font-size: 1em;
+    padding: 5px;
+    border-radius: 4px; /* Add radius */
+    border: 1px solid #f5c6cb; /* Add border */
+    cursor: pointer; /* Add cursor */
+    transition: background-color 0.2s, border-color 0.2s; /* Add transition */
+}
+
+.setting-buttons .delete-button:hover:not(:disabled) {
+    background-color: #f5c6cb;
+    border-color: #f1b0b7;
+}
+
+.settings-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings-footer span {
+    font-size: 1.1em;
+    color: #555;
+}
+
+#settingsTotalMinutes {
+    font-weight: bold;
+}
+
+#addNewTaskButton {
+    padding: 10px 18px;
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+#addNewTaskButton:hover {
+    background-color: #218838; /* Darker green */
+}
+
+/* Timer Display Styles */
+.timer-display {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px; /* Reduce margin below timer */
+    font-family: monospace;
+}
+
+/* Runtime Controls Container */
+.runtime-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px; /* Space below controls */
+}
+
+.runtime-controls button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.runtime-controls button:hover {
+    background-color: #e9ecef;
+    border-color: #bbb;
+}
+
+/* Specific button colors */
+#pauseResumeButton.paused {
+    background-color: #d1e7dd; /* Light green for Resume */
+    border-color: #badbcc;
+}
+
+#restartButton {
+    background-color: #fff3cd; /* Light yellow */
+    border-color: #ffeeba;
+}
+#restartButton:hover {
+    background-color: #ffeeba;
+}
+
+#adjustTimeMinusButton,
+#adjustTimePlusButton {
+    background-color: #cfe2ff; /* Light blue */
+    border-color: #b6d4fe;
+}
+#adjustTimeMinusButton:hover,
+#adjustTimePlusButton:hover {
+     background-color: #b6d4fe;
+}
+
+/* Style for the Next Task button */
+.next-task-button {
+    padding: 4px 10px;
+    font-size: 0.9em;
+    background-color: #cfe2ff; /* Light blue, similar to adjust buttons */
+    border: 1px solid #b6d4fe;
+    color: #0d6efd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.next-task-button:hover {
+    background-color: #b6d4fe;
+}
+
+/* Style for completed task item */ 

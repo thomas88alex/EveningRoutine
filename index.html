@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Evening Routine 🌙</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="pageOverlay"></div>
+
+    <!-- Area 1: Main Top Area -->
+    <div class="main-area top-area">
+        <h1>🌟 Evening Routine 🌙</h1>
+        <button id="startButton">Start Routine</button>
+        <div id="timerDisplay" class="timer-display">--:--</div>
+        <div id="runtimeControls" class="runtime-controls" style="display: none;">
+            <button id="pauseResumeButton">Pause</button>
+            <button id="restartButton">Restart</button>
+            <button id="adjustTimeMinusButton">-1 min</button>
+            <button id="adjustTimePlusButton">+1 min</button>
+        </div>
+        <button id="settingsButton" class="settings-btn">⚙️ Settings</button>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">
+                <!-- Progress squares -->
+            </div>
+            <div class="time-marker" id="timeMarker"></div>
+        </div>
+    </div>
+
+    <!-- Container for Columns 2, 3, 4 -->
+    <div class="columns-container main-area">
+        <!-- Area 2: Task List Area -->
+        <div class="column tasks-area">
+            <h2>Tasks</h2>
+            <div class="task-list-header">
+                <span class="header-task-icon-spacer"></span>
+                <span class="header-task-name">Task</span>
+                <span class="header-task-duration">Time</span>
+                <span class="header-task-done">Done?</span>
+            </div>
+            <ul class="task-list" id="taskList">
+                <!-- Task items -->
+            </ul>
+        </div>
+
+        <!-- Area 3: Spacer Area -->
+        <div class="column spacer-area">
+            <!-- Optional: can add a visual line here if needed -->
+        </div>
+
+        <!-- Area 4: Extra Content Area -->
+        <div class="column extra-area">
+            <h2>Relax Zone</h2>
+            <img src="assets/images/sungoingdown.jpg" alt="Setting Sun" class="extra-image">
+        </div>
+    </div>
+
+    <!-- Footer and Modal remain outside columns -->
+    <div class="footer">
+        Have a cozy night! 😊
+    </div>
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeSettingsButton">&times;</span>
+            <h2>Routine Settings</h2>
+
+            <!-- Settings Menu -->
+            <div class="settings-menu">
+                <button class="menu-item active" data-section="settingsTasks">Tasks Area</button>
+                <button class="menu-item" data-section="settingsGeneral">General</button>
+                <button class="menu-item" data-section="settingsTopArea">Top Area</button>
+                <button class="menu-item" data-section="settingsExtraArea">Extra Area</button>
+            </div>
+
+            <!-- Settings Sections -->
+            <div class="settings-section-container">
+                <div class="settings-section active" id="settingsTasks">
+                    <h3>Tasks Area Settings</h3>
+                    <div id="settingsTaskList">
+                        <!-- Editable task list goes here -->
+                    </div>
+                    <div class="settings-footer">
+                        <span>Total Planned Minutes (Active Tasks): <strong id="settingsTotalMinutes">0</strong></span>
+                        <button id="addNewTaskButton">Add New Task</button>
+                    </div>
+                </div>
+
+                <div class="settings-section" id="settingsGeneral">
+                    <h3>General Settings</h3>
+                    <p>General settings will go here (e.g., overall theme?)</p>
+                </div>
+
+                <div class="settings-section" id="settingsTopArea">
+                    <h3>Top Area Settings</h3>
+                    <p>Settings for the top area (timer, controls?) could go here.</p>
+                </div>
+
+                <div class="settings-section" id="settingsExtraArea">
+                    <h3>Extra Area Settings</h3>
+                    <p>Settings for the extra content area (e.g., change image?) could go here.</p>
+                </div>
+            </div>
+            
+            <!-- Removed old location of task list and footer -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

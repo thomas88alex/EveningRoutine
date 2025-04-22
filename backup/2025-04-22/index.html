@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Evening Routine 🌙</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Area 1: Main Top Area -->
+    <div class="main-area top-area">
+        <h1>🌟 Evening Routine 🌙</h1>
+        <button id="startButton">Start Routine</button>
+        <div id="timerDisplay" class="timer-display">--:--</div>
+        <div id="runtimeControls" class="runtime-controls" style="display: none;">
+            <button id="pauseResumeButton">Pause</button>
+            <button id="restartButton">Restart</button>
+            <button id="adjustTimeMinusButton">-1 min</button>
+            <button id="adjustTimePlusButton">+1 min</button>
+        </div>
+        <button id="settingsButton" class="settings-btn">⚙️ Settings</button>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">
+                <!-- Progress squares -->
+            </div>
+            <div class="time-marker" id="timeMarker"></div>
+        </div>
+    </div>
+
+    <!-- Container for Columns 2, 3, 4 -->
+    <div class="columns-container main-area">
+        <!-- Area 2: Task List Area -->
+        <div class="column tasks-area">
+            <div class="task-list-header">
+                <span class="header-task-icon-spacer"></span>
+                <span class="header-task-name">Task</span>
+                <span class="header-task-duration">Time</span>
+                <span class="header-task-done">Done?</span>
+            </div>
+            <ul class="task-list" id="taskList">
+                <!-- Task items -->
+            </ul>
+        </div>
+
+        <!-- Area 3: Spacer Area -->
+        <div class="column spacer-area">
+            <!-- Optional: can add a visual line here if needed -->
+        </div>
+
+        <!-- Area 4: Extra Content Area -->
+        <div class="column extra-area">
+            <h2>Extra Content</h2> <!-- Placeholder title -->
+            <img src="https://via.placeholder.com/400x300.png?text=Placeholder+Image" alt="Placeholder Image" class="extra-image">
+        </div>
+    </div>
+
+    <!-- Footer and Modal remain outside columns -->
+    <div class="footer">
+        Have a cozy night! 😊
+    </div>
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeSettingsButton">&times;</span>
+            <h2>Routine Settings</h2>
+            <div id="settingsTaskList">
+                <!-- Editable task list goes here -->
+            </div>
+             <div class="settings-footer">
+                 <span>Total Planned Minutes: <strong id="settingsTotalMinutes">0</strong></span>
+                 <button id="addNewTaskButton">Add New Task</button>
+             </div>
+            <!-- Maybe save button if changes aren't saved automatically -->
+             <!-- <button id="saveSettingsButton">Save Changes</button> -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
