@@ -65,16 +65,125 @@ const backgroundImages = [
     'assets/backgrounds/colour_calm.jpg'       // New
 ];
 
-// --- Default Settings --- 
-const defaultTasks = [
-    // Updated default task list
-    { id: 0, name: 'Städning av rum', duration: 10, icon: '🧹', colorId: 'blue', isActive: true },
-    { id: 1, name: 'Lägg fram kläder tills imorgon', duration: 3, icon: '👔', colorId: 'green', isActive: true },
-    { id: 2, name: 'Packa skolväskan', duration: 3, icon: '🎒', colorId: 'yellow', isActive: true },
-    { id: 3, name: 'Borsta tänderna', duration: 3, icon: '🦷', colorId: 'purple', isActive: true },
-    { id: 4, name: 'Gå på toalettet', duration: 3, icon: '🚽', colorId: 'orange', isActive: true },
-    { id: 5, name: 'Pyjamas', duration: 3, icon: '👕', colorId: 'teal', isActive: true }, // Changed icon to Shirt
-    { id: 6, name: 'Mys stund', duration: 20, icon: '👨‍👧', colorId: 'pink', isActive: true }
+// --- Language Data --- 
+const translations = {
+    sv: {
+        // General UI
+        pageTitle: "🌟 Kvällsrutin 🌙",
+        startRoutine: "Start", // Works for both
+        pause: "Pausa",
+        resume: "Återuppta",
+        restart: "Omstart",
+        routineInProgress: "Rutin Pågår...",
+        routineComplete: "Rutin Klar! 🎉",
+        noActiveTasks: "Inga Aktiva Uppgifter",
+        settings: "Inställningar",
+        tasksTitle: "Uppgifter",
+        tasksTimeHeader: "Tid",
+        tasksDoneHeader: "Klar?",
+        extraSpaceTitle: "Extra utrymme",
+        footerText: "Ha en mysig kväll! 😊",
+        confirmRestart: "Är du säker på att du vill starta om hela rutinen?",
+        // Settings Modal
+        settingsTitle: "Rutin Inställningar",
+        settingsMenuTasks: "Uppgifter", 
+        settingsMenuGeneral: "Allmänt",
+        settingsMenuTopArea: "Toppsektion",
+        settingsMenuExtraArea: "Extrasektion",
+        // Settings - Tasks Section
+        settingsTasksTitle: "Inställningar", 
+        settingsTasksIconCol: "Ikon",
+        settingsTasksNameCol: "Namn", 
+        settingsTasksMinsCol: "Min",
+        settingsTasksColorCol: "Färg",
+        settingsTasksActiveCol: "Aktiv",
+        settingsTasksActionsCol: "Åtgärd", 
+        settingsTasksTotalTime: "Total Planerad Tid (Aktiva):",
+        settingsTasksAddButton: "Lägg Till Ny Uppgift",
+        settingsTasksDeleteConfirm: "Är du säker på att du vill radera uppgift", // Append task name later
+        // Settings - General Section
+        settingsGeneralTitle: "Allmänna Inställningar",
+        settingsGeneralBgImage: "Bakgrundsbild:",
+        settingsGeneralOverlayColor: "Färgöverlägg:",
+        settingsGeneralOverlayOpacity: "Genomskinlighet för färgöverlägg (0=Tät, 100=Transparent):",
+        // Settings - Other Sections (Placeholders)
+        settingsTopAreaTitle: "Inställningar Toppsektion",
+        settingsTopAreaPlaceholder: "Inställningar för toppsektionen (timer, kontroller?) kan läggas här.",
+        settingsExtraAreaTitle: "Inställningar Extrasektion",
+        settingsExtraAreaPlaceholder: "Inställningar för extrasektionen (t.ex. ändra innehåll?) kan läggas här.",
+        // Default Task Names (Swedish)
+        defaultTask0: "Städning av rum",
+        defaultTask1: "Lägg fram kläder tills imorgon",
+        defaultTask2: "Packa skolväskan",
+        defaultTask3: "Borsta tänderna",
+        defaultTask4: "Gå på toalettet",
+        defaultTask5: "Ta på nattkläder",
+        defaultTask6: "Mys stund"
+    },
+    en: {
+        // General UI
+        pageTitle: "🌟 Evening Routine 🌙",
+        startRoutine: "Start", // Works for both
+        pause: "Pause",
+        resume: "Resume",
+        restart: "Restart",
+        routineInProgress: "Routine in Progress...",
+        routineComplete: "Routine Complete! 🎉",
+        noActiveTasks: "No Active Tasks",
+        settings: "Settings",
+        tasksTitle: "Tasks",
+        tasksTimeHeader: "Time",
+        tasksDoneHeader: "Done?",
+        extraSpaceTitle: "Extra space",
+        footerText: "Have a cozy night! 😊",
+        confirmRestart: "Are you sure you want to restart the entire routine?",
+        // Settings Modal
+        settingsTitle: "Routine Settings",
+        settingsMenuTasks: "Tasks", 
+        settingsMenuGeneral: "General",
+        settingsMenuTopArea: "Top Area",
+        settingsMenuExtraArea: "Extra Area",
+        // Settings - Tasks Section
+        settingsTasksTitle: "Settings", 
+        settingsTasksIconCol: "Icon",
+        settingsTasksNameCol: "Name", 
+        settingsTasksMinsCol: "Mins",
+        settingsTasksColorCol: "Colour", 
+        settingsTasksActiveCol: "Active",
+        settingsTasksActionsCol: "Action", 
+        settingsTasksTotalTime: "Total Planned Minutes (Active Tasks):",
+        settingsTasksAddButton: "Add New Task",
+        settingsTasksDeleteConfirm: "Are you sure you want to delete task", 
+        // Settings - General Section
+        settingsGeneralTitle: "General Settings",
+        settingsGeneralBgImage: "Background Image:",
+        settingsGeneralOverlayColor: "Overlay Colour:",
+        settingsGeneralOverlayOpacity: "Overlay Opacity (0=Opaque, 100=Transparent):",
+         // Settings - Other Sections (Placeholders)
+        settingsTopAreaTitle: "Top Area Settings",
+        settingsTopAreaPlaceholder: "Settings for the top area (timer, controls?) could go here.",
+        settingsExtraAreaTitle: "Extra Area Settings",
+        settingsExtraAreaPlaceholder: "Settings for the extra content area (e.g., change content?) could go here.",
+       // Default Task Names (English)
+        defaultTask0: "Cleaning the room",
+        defaultTask1: "Lay out clothes for tomorrow",
+        defaultTask2: "Pack the school bag",
+        defaultTask3: "Brush your teeth",
+        defaultTask4: "Go to the bathroom",
+        defaultTask5: "Put on pyjamas",
+        defaultTask6: "Cuddle Time"
+    }
+};
+
+// --- Modify Default Task structure ---
+const defaultTasksRaw = [
+    { id: 0, nameKey: 'defaultTask0', duration: 10, icon: '🧹', colorId: 'blue', isActive: true },
+    { id: 1, nameKey: 'defaultTask1', duration: 3, icon: '👔', colorId: 'green', isActive: true },
+    { id: 2, nameKey: 'defaultTask2', duration: 3, icon: '🎒', colorId: 'yellow', isActive: true },
+    { id: 3, nameKey: 'defaultTask3', duration: 3, icon: '🦷', colorId: 'purple', isActive: true },
+    { id: 4, nameKey: 'defaultTask4', duration: 3, icon: '🚽', colorId: 'orange', isActive: true },
+    { id: 5, nameKey: 'defaultTask5', duration: 3, icon: '👕', colorId: 'teal', isActive: true },
+    { id: 6, nameKey: 'defaultTask6', duration: 20, icon: '👨‍👧', colorId: 'pink', isActive: true }
 ];
 
 const defaultGeneralSettings = {
@@ -111,38 +220,44 @@ function hexToRgba(hex, alpha = 1) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM Content Loaded - Initializing App..."); // Log DOM ready
+
+    // --- Language State ---
+    let currentLanguage = localStorage.getItem('routineLanguage') || 'sv'; // Default to Swedish
+    console.log(`Initial language: ${currentLanguage}`);
+
     // Default tasks if nothing in localStorage
-    let tasks = JSON.parse(localStorage.getItem('routineTasks')) || defaultTasks;
-
-    // Load General Settings
-    // let generalSettings = JSON.parse(localStorage.getItem('generalSettings')) || { ...defaultGeneralSettings };
-    // Ensure loaded settings have all properties
-    // generalSettings = { ...defaultGeneralSettings, ...generalSettings };
+    let tasks = JSON.parse(localStorage.getItem('routineTasks')) || defaultTasksRaw.map(task => ({ 
+        ...task,
+        name: translations[currentLanguage]?.[task.nameKey] || `Missing: ${task.nameKey}`
+    }));
+    console.log("Tasks loaded/defaulted.");
     
-    // <<< TEMPORARY FIX: Force default settings >>>
-    console.warn("TEMPORARY: Forcing default general settings, ignoring localStorage.");
-    let generalSettings = { ...defaultGeneralSettings }; 
-    // <<< END TEMPORARY FIX >>>
-
+    // Load General Settings
+    // Restore loading from localStorage
+    let generalSettings = JSON.parse(localStorage.getItem('generalSettings')) || { ...defaultGeneralSettings };
+    // Ensure loaded settings have all properties
+    generalSettings = { ...defaultGeneralSettings, ...generalSettings };
+    
     // Ensure loaded tasks have all necessary properties
     tasks = tasks.map((task, index) => {
-        const defaultTaskMatch = defaultTasks.find(dt => dt.id === task.id);
-        const { optional, ...restOfTask } = task; // Destructure to remove optional if loaded
+        const rawDefault = defaultTasksRaw.find(dt => dt.id === task.id);
+        const { optional, skipped, nameKey, ...restOfTask } = task; // Remove old/unused properties
         return {
             icon: availableIcons[0],
             colorId: availableColors[0].id,
             isActive: true,
-            ...defaultTaskMatch, // Apply defaults
-            ...restOfTask, // Apply loaded data (without optional)
+            ...restOfTask, // Apply loaded/default data (which now includes name)
             id: restOfTask.id !== undefined ? restOfTask.id : Date.now() + index,
             duration: parseInt(restOfTask.duration, 10) || 1,
-            // Reset runtime state
+            name: restOfTask.name || (rawDefault ? translations[currentLanguage][rawDefault.nameKey] : `Task ${index}`), // Ensure name exists
             completed: false,
             skipped: false, // Keep skipped internally for now? Or remove?
             startTime: null,
             endTime: null
         };
     });
+    console.log("Tasks mapped/processed.");
 
     // Filtered list for the main routine view
     let activeTasks = [];
@@ -206,10 +321,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to save tasks to localStorage
-    function saveSettings() { // Renamed from saveTasks for clarity
-        // Save Tasks
-        const tasksToSave = tasks.map(({ startTime, endTime, completed, skipped, optional, ...rest }) => ({
-            ...rest,
+    function saveSettings() { 
+        // Save Tasks (Save the current name, don't use nameKey anymore)
+        const tasksToSave = tasks.map(({ startTime, endTime, completed, nameKey, ...rest }) => ({
+            ...rest, // Includes current name
             duration: parseInt(rest.duration, 10) || 1,
             isActive: rest.isActive === undefined ? true : rest.isActive
         }));
@@ -220,10 +335,11 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('generalSettings', JSON.stringify(generalSettings));
         console.log("General settings saved.");
 
-        // Recalculate active task total minutes
-        totalMinutes = tasks.reduce((sum, task) => sum + (task.isActive ? (parseInt(task.duration, 10) || 0) : 0), 0);
-        console.log(`New total duration for ACTIVE tasks: ${totalMinutes} minutes`);
-        initializeUI(); // Re-init main UI
+        // Save Language
+        localStorage.setItem('routineLanguage', currentLanguage);
+        console.log(`Language preference saved: ${currentLanguage}`);
+        
+        // NO UI update on save
     }
 
     // Function to initialize the UI (tasks and progress bar)
@@ -488,7 +604,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to Restart the routine
     function restartRoutine() {
-         if (!confirm("Are you sure you want to restart the entire routine?")) return;
+         const lang = translations[currentLanguage];
+         const confirmMsg = lang.confirmRestart || "Are you sure you want to restart the entire routine?";
+         if (!confirm(confirmMsg)) return;
 
          console.log('Restarting Routine...');
          if (timerInterval) {
@@ -806,103 +924,136 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function populateTasksSection() {
-         const taskListContainer = document.getElementById('settingsTaskList');
-         if(!taskListContainer) {
-             console.error("Settings task list container not found!");
-             return;
-         }
-         taskListContainer.innerHTML = ''; // Clear just the task list part
+        const taskListContainer = document.getElementById('settingsTaskList');
+        if(!taskListContainer) {
+            console.error("Settings task list container not found!");
+            return;
+        }
+        taskListContainer.innerHTML = ''; // Clear just the task list part
 
-         // Add Header Row
-         const headerDiv = document.createElement('div');
-         headerDiv.classList.add('setting-task-item', 'settings-header');
-         headerDiv.innerHTML = `
-             <span class="drag-handle"></span>
-             <div class="setting-inputs header-inputs">
-                 <span class="setting-icon header-label">Icon</span>
-                 <span class="setting-name header-label">Task Name</span>
-                 <span class="setting-duration header-label">Mins</span>
-                 <span class="setting-color header-label">Color</span>
-             </div>
-             <span class="setting-active header-label">Active</span>
-             <div class="setting-buttons header-buttons">
-                 <span class="header-label">Actions</span>
-             </div>
-         `;
-         taskListContainer.appendChild(headerDiv);
+        const lang = translations[currentLanguage]; // Get current translations
 
-         if (tasks.length === 0) {
-              taskListContainer.appendChild(document.createTextNode('No tasks defined. Add one below!'));
-         }
+        // Add Header Row Dynamically
+        const headerDiv = document.createElement('div');
+        headerDiv.classList.add('setting-task-item', 'settings-header');
 
-         // Populate task rows (use full `tasks` array)
-         tasks.forEach((task, index) => {
-             const itemDiv = document.createElement('div');
-             itemDiv.classList.add('setting-task-item');
-             itemDiv.dataset.taskId = task.id;
-             itemDiv.draggable = true;
+        const handleSpan = document.createElement('span');
+        handleSpan.classList.add('drag-handle');
+        headerDiv.appendChild(handleSpan);
 
-             const handle = document.createElement('span');
-             handle.classList.add('drag-handle');
-             handle.textContent = '☰';
-             itemDiv.appendChild(handle);
+        const inputsHeaderDiv = document.createElement('div');
+        inputsHeaderDiv.classList.add('setting-inputs', 'header-inputs');
+        
+        const iconLabel = document.createElement('span');
+        iconLabel.classList.add('setting-icon', 'header-label');
+        iconLabel.textContent = lang.settingsTasksIconCol;
+        inputsHeaderDiv.appendChild(iconLabel);
 
-             const inputsDiv = document.createElement('div');
-             inputsDiv.classList.add('setting-inputs');
-             // Icon Select
-             const iconSelect = document.createElement('select');
-             iconSelect.classList.add('setting-icon');
-             iconSelect.dataset.field = 'icon';
-             availableIcons.forEach(icon => {
-                 const option = document.createElement('option');
-                 option.value = icon;
-                 option.textContent = icon;
-                 if (task.icon === icon) option.selected = true;
-                 iconSelect.appendChild(option);
-             });
-             inputsDiv.appendChild(iconSelect);
-             // Name Input
-             const nameInput = document.createElement('input');
-             nameInput.type = 'text'; nameInput.value = task.name; nameInput.placeholder = 'Task Name'; nameInput.classList.add('setting-name'); nameInput.dataset.field = 'name';
-             inputsDiv.appendChild(nameInput);
-              // Duration Input
-             const durationInput = document.createElement('input');
-             durationInput.type = 'number'; durationInput.value = task.duration; durationInput.min = 1; durationInput.placeholder = 'Mins'; durationInput.classList.add('setting-duration'); durationInput.dataset.field = 'duration';
-             inputsDiv.appendChild(durationInput);
-             // Color Select
-             const colorSelect = document.createElement('select');
-             colorSelect.classList.add('setting-color'); colorSelect.dataset.field = 'colorId';
-             availableColors.forEach(color => {
-                 const option = document.createElement('option');
-                 option.value = color.id; option.textContent = color.name; option.style.backgroundColor = color.light;
-                 if (task.colorId === color.id) option.selected = true;
-                 colorSelect.appendChild(option);
-             });
-             inputsDiv.appendChild(colorSelect);
-             // Set initial color select background
-             const initialColor = availableColors.find(c => c.id === task.colorId);
-             if (initialColor) { colorSelect.style.backgroundColor = initialColor.light; colorSelect.style.color = isLight(initialColor.light) ? '#000' : '#fff'; }
+        const nameLabel = document.createElement('span');
+        nameLabel.classList.add('setting-name', 'header-label');
+        nameLabel.textContent = lang.settingsTasksNameCol;
+        inputsHeaderDiv.appendChild(nameLabel);
+        
+        const durationLabel = document.createElement('span');
+        durationLabel.classList.add('setting-duration', 'header-label');
+        durationLabel.textContent = lang.settingsTasksMinsCol;
+        inputsHeaderDiv.appendChild(durationLabel);
 
-             itemDiv.appendChild(inputsDiv);
+        const colorLabel = document.createElement('span');
+        colorLabel.classList.add('setting-color', 'header-label');
+        colorLabel.textContent = lang.settingsTasksColorCol;
+        inputsHeaderDiv.appendChild(colorLabel);
 
-             // Active Checkbox
-             const activeCheckbox = document.createElement('input');
-             activeCheckbox.type = 'checkbox'; activeCheckbox.checked = task.isActive === undefined ? true : task.isActive; activeCheckbox.dataset.field = 'isActive'; activeCheckbox.classList.add('setting-active-cb');
-             itemDiv.appendChild(activeCheckbox);
+        headerDiv.appendChild(inputsHeaderDiv);
 
-             // Buttons (Delete)
-             const buttonsDiv = document.createElement('div');
-             buttonsDiv.classList.add('setting-buttons');
-             const deleteButton = document.createElement('button');
-             deleteButton.textContent = '🗑️'; deleteButton.title = 'Delete Task'; deleteButton.classList.add('delete-button');
-             buttonsDiv.appendChild(deleteButton);
-             itemDiv.appendChild(buttonsDiv);
+        const activeLabel = document.createElement('span');
+        activeLabel.classList.add('setting-active', 'header-label');
+        activeLabel.textContent = lang.settingsTasksActiveCol;
+        headerDiv.appendChild(activeLabel);
 
-             taskListContainer.appendChild(itemDiv);
-         });
+        const buttonsHeaderDiv = document.createElement('div');
+        buttonsHeaderDiv.classList.add('setting-buttons', 'header-buttons');
+        const actionsLabel = document.createElement('span');
+        actionsLabel.classList.add('header-label');
+        actionsLabel.textContent = lang.settingsTasksActionsCol;
+        buttonsHeaderDiv.appendChild(actionsLabel);
+        headerDiv.appendChild(buttonsHeaderDiv);
+        
+        // Append the fully constructed header
+        taskListContainer.appendChild(headerDiv);
 
-         updateSettingsTotal(); // Update total display
-         console.log("Settings task list populated.");
+        if (tasks.length === 0) {
+             taskListContainer.appendChild(document.createTextNode('No tasks defined. Add one below!'));
+        }
+
+        // Populate task rows (use full `tasks` array)
+        tasks.forEach((task, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('setting-task-item');
+            itemDiv.dataset.taskId = task.id;
+            itemDiv.draggable = true;
+
+            const handle = document.createElement('span');
+            handle.classList.add('drag-handle');
+            handle.textContent = '☰';
+            itemDiv.appendChild(handle);
+
+            const inputsDiv = document.createElement('div');
+            inputsDiv.classList.add('setting-inputs');
+            // Icon Select
+            const iconSelect = document.createElement('select');
+            iconSelect.classList.add('setting-icon');
+            iconSelect.dataset.field = 'icon';
+            availableIcons.forEach(icon => {
+                const option = document.createElement('option');
+                option.value = icon;
+                option.textContent = icon;
+                if (task.icon === icon) option.selected = true;
+                iconSelect.appendChild(option);
+            });
+            inputsDiv.appendChild(iconSelect);
+            // Name Input
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text'; nameInput.value = task.name; nameInput.placeholder = 'Task Name'; nameInput.classList.add('setting-name'); nameInput.dataset.field = 'name';
+            inputsDiv.appendChild(nameInput);
+             // Duration Input
+            const durationInput = document.createElement('input');
+            durationInput.type = 'number'; durationInput.value = task.duration; durationInput.min = 1; durationInput.placeholder = 'Mins'; durationInput.classList.add('setting-duration'); durationInput.dataset.field = 'duration';
+            inputsDiv.appendChild(durationInput);
+            // Color Select
+            const colorSelect = document.createElement('select');
+            colorSelect.classList.add('setting-color'); colorSelect.dataset.field = 'colorId';
+            availableColors.forEach(color => {
+                const option = document.createElement('option');
+                option.value = color.id; option.textContent = color.name; option.style.backgroundColor = color.light;
+                if (task.colorId === color.id) option.selected = true;
+                colorSelect.appendChild(option);
+            });
+            inputsDiv.appendChild(colorSelect);
+            // Set initial color select background
+            const initialColor = availableColors.find(c => c.id === task.colorId);
+            if (initialColor) { colorSelect.style.backgroundColor = initialColor.light; colorSelect.style.color = isLight(initialColor.light) ? '#000' : '#fff'; }
+
+            itemDiv.appendChild(inputsDiv);
+
+            // Active Checkbox
+            const activeCheckbox = document.createElement('input');
+            activeCheckbox.type = 'checkbox'; activeCheckbox.checked = task.isActive === undefined ? true : task.isActive; activeCheckbox.dataset.field = 'isActive'; activeCheckbox.classList.add('setting-active-cb');
+            itemDiv.appendChild(activeCheckbox);
+
+            // Buttons (Delete)
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.classList.add('setting-buttons');
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '🗑️'; deleteButton.title = 'Delete Task'; deleteButton.classList.add('delete-button');
+            buttonsDiv.appendChild(deleteButton);
+            itemDiv.appendChild(buttonsDiv);
+
+            taskListContainer.appendChild(itemDiv);
+        });
+
+        updateSettingsTotal(); // Update total display
+        console.log("Settings task list populated.");
     }
 
     function populateGeneralSection() {
@@ -916,11 +1067,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Background Image Selector
         const bgLabel = document.createElement('label');
+        bgLabel.htmlFor = 'backgroundImageSelect';
         bgLabel.textContent = 'Background Image:';
         const bgSelect = document.createElement('select');
         bgSelect.dataset.setting = 'backgroundImage';
-        bgSelect.innerHTML = ''; // Clear existing/placeholder options
-
+        bgSelect.id = 'backgroundImageSelect';
         // Populate with found images
         backgroundImages.forEach(imgPath => {
             const option = document.createElement('option');
@@ -939,9 +1090,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. Overlay Color Selector
         const colorLabel = document.createElement('label');
+        colorLabel.htmlFor = 'overlayColorSelect';
         colorLabel.textContent = 'Overlay Color:';
         const colorSelect = document.createElement('select');
         colorSelect.dataset.setting = 'overlayColorHex';
+        colorSelect.id = 'overlayColorSelect';
         overlayColors.forEach(color => {
             const option = document.createElement('option');
             option.value = color.hex;
@@ -960,6 +1113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Overlay Opacity Slider
         const opacityLabel = document.createElement('label');
+        opacityLabel.htmlFor = 'opacitySlider';
         opacityLabel.textContent = 'Overlay Opacity (0=Opaque, 100=Transparent):';
         const opacitySlider = document.createElement('input');
         opacitySlider.type = 'range';
@@ -1132,7 +1286,155 @@ document.addEventListener('DOMContentLoaded', () => {
         return brightness > 150; // Threshold can be adjusted
     }
 
-    // Initial setup
-    applyGeneralSettings(); // Apply loaded settings on page load
-    initializeUI(); 
+    // --- UI Update Function ---
+    function updateUIText() {
+        console.log(`Updating UI text for language: ${currentLanguage}`);
+        const lang = translations[currentLanguage];
+        if (!lang) {
+             console.error(`Translations not found for language: ${currentLanguage}`);
+             return;
+        }
+        
+        // Set page language attribute
+        document.documentElement.lang = currentLanguage;
+
+        // Update elements with data-i18n-key attribute
+        document.querySelectorAll('[data-i18n-key]').forEach(el => {
+            const key = el.dataset.i18nKey;
+            const translation = lang[key];
+
+            if (translation !== undefined) {
+                 // Handle specific cases like button text or different elements
+                 if (el.id === 'startButton' || el.id === 'pauseResumeButton' || el.id === 'restartButton' || el.id === 'addNewTaskButton') {
+                     // Buttons handled by updateDynamicButtonText or updateSettingsPlaceholders
+                 } else if (el.tagName === 'INPUT' && (el.type === 'button' || el.type === 'submit')) {
+                     el.value = translation;
+                 } else if (el.tagName === 'P' && el.closest('.settings-section')) {
+                     // Handle placeholder paragraphs in settings
+                     el.textContent = translation;
+                 } 
+                 else {
+                     el.textContent = translation;
+                 }
+            } else {
+                 console.warn(`Translation key not found: ${key} for language ${currentLanguage}`);
+            }
+        });
+
+        // Update specific elements not easily targeted by attribute
+        document.title = lang.pageTitle || "Evening Routine"; 
+        // Update dynamic button text (e.g., pause/resume)
+        updateDynamicButtonText();
+        // Update settings placeholders and labels
+        updateSettingsPlaceholders();
+         // Update active language button style
+         document.querySelectorAll('.lang-button').forEach(btn => {
+             btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
+         });
+    }
+
+    function updateDynamicButtonText() {
+        const lang = translations[currentLanguage];
+        // Pause/Resume Button
+        if (pauseResumeButton) {
+            pauseResumeButton.textContent = isPaused ? lang.resume : lang.pause;
+        }
+        // Start Button (when visible)
+        if (startButton && startButton.style.display !== 'none') {
+             if (activeTasks.length === 0) {
+                 startButton.textContent = lang.noActiveTasks;
+             } else {
+                 // If paused, pause button shows Resume, so Start button shouldn't be visible.
+                 // Just set the default Start text.
+                 startButton.textContent = lang.startRoutine; 
+             }
+             // Handle completed state text update if needed
+              if (!routineRunning && elapsedSeconds > 0) { // If routine finished
+                   startButton.textContent = lang.routineComplete;
+              }
+        } else if (startButton && !routineRunning && elapsedSeconds > 0) {
+             // Ensure completed text shows even if button was hidden
+             startButton.textContent = lang.routineComplete;
+             startButton.style.display = 'inline-block'; // Make sure it's visible
+             startButton.disabled = true;
+        }
+        // Restart button (handled by data-i18n-key)
+        const restartBtn = document.getElementById('restartButton');
+        if(restartBtn && lang.restart) restartBtn.textContent = lang.restart;
+    }
+
+    // Update Settings Placeholders and Labels (Simplified)
+     function updateSettingsPlaceholders() {
+         const lang = translations[currentLanguage];
+
+         // Update section titles (H3)
+         const tasksTitleH3 = document.querySelector("#settingsTasks h3");
+         if (tasksTitleH3) tasksTitleH3.textContent = lang.settingsTasksTitle;
+
+         const generalTitleH3 = document.querySelector("#settingsGeneral h3");
+         if (generalTitleH3) generalTitleH3.textContent = lang.settingsGeneralTitle;
+
+         const topAreaTitleH3 = document.querySelector("#settingsTopArea h3");
+         if (topAreaTitleH3) topAreaTitleH3.textContent = lang.settingsTopAreaTitle;
+
+         const extraAreaTitleH3 = document.querySelector("#settingsExtraArea h3");
+         if (extraAreaTitleH3) extraAreaTitleH3.textContent = lang.settingsExtraAreaTitle;
+
+         // Update task list footer row texts
+         const totalLabel = document.querySelector('#settingsTasks .settings-footer span');
+         if(totalLabel) totalLabel.firstChild.textContent = lang.settingsTasksTotalTime + ' ';
+         if(addNewTaskButton) addNewTaskButton.textContent = lang.settingsTasksAddButton;
+         
+         // Update color dropdown options text (Still needed here for live update)
+         document.querySelectorAll('#settingsGeneral select[data-setting="overlayColorHex"] option').forEach(option => {
+             const color = overlayColors.find(c => c.hex === option.value);
+             if(color && color.name) option.textContent = color.name[currentLanguage] || color.name['en'];
+         });
+         document.querySelectorAll('#settingsTasks .setting-color option').forEach(option => {
+             const color = availableColors.find(c => c.id === option.value);
+             if(color && color.name) option.textContent = color.name[currentLanguage] || color.name['en'];
+         });
+
+         // Update other section placeholder paragraphs
+         const topAreaPlaceholder = document.querySelector("#settingsTopArea p");
+         if (topAreaPlaceholder) topAreaPlaceholder.textContent = lang.settingsTopAreaPlaceholder;
+         const extraAreaPlaceholder = document.querySelector("#settingsExtraArea p");
+         if (extraAreaPlaceholder) extraAreaPlaceholder.textContent = lang.settingsExtraAreaPlaceholder;
+     }
+
+    // Language Switcher Listener
+    const languageSwitcher = document.querySelector('.language-switcher');
+    if (languageSwitcher) {
+        languageSwitcher.addEventListener('click', (event) => {
+            const target = event.target.closest('.lang-button');
+            if (target && target.dataset.lang) {
+                const newLang = target.dataset.lang;
+                if (newLang !== currentLanguage) {
+                    console.log(`Switching language to: ${newLang}`);
+                    currentLanguage = newLang;
+                    // Re-populate settings dropdowns for new language names
+                    populateSettings(); 
+                    saveSettings(); // Save the new language preference & settings
+                    updateUIText(); // Update all text elements
+                }
+            }
+        });
+    }
+
+    // Initial Setup Calls
+    try {
+        applyGeneralSettings(); 
+        console.log("Initial general settings applied.");
+        initializeUI(); 
+        console.log("Initial UI drawn.");
+        updateUIText(); // Apply initial language
+        console.log("Initial UI text applied.");
+    } catch (e) {
+        console.error("Error during initial setup calls:", e);
+        alert("Error during application startup.");
+        return; // Exit if setup fails
+    }
+
+    console.log("APP INITIALIZATION COMPLETE."); 
+
 }); 

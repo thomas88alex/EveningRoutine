@@ -35,12 +35,12 @@ h1 {
 }
 
 .settings-btn {
-    position: fixed; /* Use fixed to keep top-right of viewport? */
+    position: fixed;
     top: 15px;
-    right: 20px;
-    z-index: 50; /* Ensure above other content */
+    right: 20px; /* Settings button position */
+    z-index: 50;
     padding: 8px 12px;
-    font-size: 1.1em;
+    font-size: 0.9em;
     background-color: #777;
     color: white;
     border: none;
@@ -51,6 +51,37 @@ h1 {
 
 .settings-btn:hover {
     background-color: #555;
+}
+
+/* Language Switcher Styles */
+.language-switcher {
+    position: fixed;
+    top: 15px;
+    right: 125px; /* Position left of settings button (adjust as needed) */
+    z-index: 51; /* Slightly above settings button if needed */
+    display: flex;
+    gap: 5px;
+}
+
+.lang-button {
+    background: none;
+    border: none;
+    font-size: 1.6em; /* Adjust flag size */
+    padding: 0 3px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.lang-button:hover {
+    opacity: 1;
+}
+
+.lang-button.active {
+    opacity: 1;
+    /* Optional: add border or other indicator for active */
+    /* border: 1px solid #555; */
+    transform: scale(1.1); /* Slightly larger when active */
 }
 
 /* --- Progress Bar --- */
